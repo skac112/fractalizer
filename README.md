@@ -8,7 +8,7 @@ graphics -> Node -> graphics
 
 Node is essentialy a function which processes graphics. You can build intricate, fractal-like vector graphics starting from simple shape like circle or rectangle and processing it using nodes.
 
-Processing is done in two "channels": <strong>proc channel<strong> and <strong>draw channel<strong>. Most of work is done in a proc channel. Draw channel is essentially a kind of stack where subsequent nodes add graphics which should be drawn and not later processed.
+Processing is done in two "channels": <strong>proc channel</strong> and <strong>draw channel</strong>. Most of work is done in a proc channel. Draw channel is essentially a kind of stack where subsequent nodes add graphics which should be drawn and not later processed.
 
 The real power of nodes lies in a possibility of combining them into more complex nodes, so you can:
 
