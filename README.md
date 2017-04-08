@@ -25,7 +25,7 @@ val n = n1*3
 
 1. val n = n1 ||| n2 
 
-It is simple parallel-input combining of n1 and n2 - input goes to each node independently and output is collected by adding outputs from subsquent nodes.
+It is simple parallel-input combining of n1 and n2 - input goes to each node independently and output is collected by adding outputs from subsequent nodes.
 
 2. val n = n1 || n2
 
