@@ -41,7 +41,7 @@ val n = n1 || n2 || n3 || n4
 
 And that:
 
-val n = n1 + n2 + (n3 ||* 2 + n4 |||| n5) * 3
+val n = n1 + n2 + (n3 ||* 2 + n4 ||| n5) * 3
 .
 ||* and |||* are for parallel combining same nodes analogically to *.
 
