@@ -1,6 +1,7 @@
 # fractalizer
 Library for creating vector graphics by transforming simple shapes into complex ones.
-Uses <a href="https://github.com/skac112/miro">miro</a>.
+
+# Essentials
 
 <strong>Nodes</strong> are used to transforming graphics into... more graphics:
 
@@ -13,36 +14,50 @@ Processing is done in two "channels": <strong>proc channel</strong> and <strong>
 The real power of nodes lies in a possibility of combining them into more complex nodes, so you can:
 
 - add nodes:
+~~~ scala
 val n = n1 + n2
-
+~~~
 Result node is a node which sequentially processes input by n1 and then by n2.
 
 - add same nodes (multiply them seqentially):
-
+~~~ scala
 val n = n1*3
+~~~
 
 - combine nodes in parallel in two manners:
-
+~~~ scala
 1. val n = n1 ||| n2 
-
+~~~
 It is simple parallel-input combining of n1 and n2 - input goes to each node independently and output is collected by adding outputs from subsequent nodes.
-
+~~~ scala
 2. val n = n1 || n2
-
+~~~
 In this case an input is splitted between n1 and n2 (like when playing cards) which is suitable for some cases.
 
 You can of course do that:
-
+~~~ scala
 val n = n1 ||| n2 ||| n3
-
+~~~
 And that:
-
+~~~ scala
 val n = n1 || n2 || n3 || n4
-
+~~~
 And that:
-
+~~~ scala
 val n = n1 + n2 + (n3 ||* 2 + n4 ||| n5) * 3
+~~~
 
 ||* and |||* are for parallel combining same nodes analogically to *.
+
+# Requirements
+Fractalizer uses Scala + sbt, so You have that being installed, it also uses following libraries:
+- <a href="https://github.com/skac112/miro">miro</a>
+- scalactic
+- scalatest
+- scalaz
+
+# Installing
+sbt compile
+
 
 
