@@ -1,5 +1,5 @@
 # About
-Library for creating vector graphics by transforming simple shapes into complex ones.
+Fractalizer is a library for creating vector graphics by transforming simple shapes into complex ones.
 
 # Essentials
 
