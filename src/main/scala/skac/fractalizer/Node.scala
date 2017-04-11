@@ -44,30 +44,24 @@ object Node {
         n_i_pairs_2 = n_i_pairs.asInstanceOf[Iterator[Seq[Int]]].toSeq :+ Seq(last_start, turn_len) map {pair => {Seq(pair(0) + turn_start, pair(1) + turn_start)}}
         zipped = nodes zip n_i_pairs_2
         outputs <- zipped map {kv =>
-          val n = kv._1        
+          val n = kv._1
           n((proc_data.slice(kv._2(0), kv._2(1)), draw_data))
         }
       } yield outputs
 
       // zlaczenie wynikow
-      out reduceLeft {(nd1: NodeData, nd2: NodeData) => (nd1._1 ++ nd2._1, nd1._2 ++ nd2._2)}
-    // override def apply(data: NodeData) = {
-    //   val proc_data = data._1
-    //   val draw_data = data._2
-    //   val nodes_rep = for (n <- 0 until nodes.size; j <- 1 to nodes(n).naturalArity) yield n
-    //   val zipped = nodes_rep zip proc_data
-    //   // kazdy wezel dostaje co najwyzej jedna porcje elementow
-    //   val outputs = (0 until nodes.size) map {i =>
-    //     // procedowanie przez wezly
-    //     val n = nodes(i)
-    //     val proc_data_n = zipped filter {i == _._1} map {_._2}
-    //     n((proc_data_n, draw_data))
-    //   }
-    //   // zlaczenie wynikow
-    //   outputs reduceLeft {(nd1: NodeData, nd2: NodeData) => (nd1._1 ++ nd2._1, nd1._2 ++ nd2._2)}
+      (out map (_._1) reduceLeft {_ ++ _}, mergeParallelDraw(data._2, out))
+    }
+
+    /**
+     * Dokonuje polaczenia wyjsc kanalow rysowania wezlow polaczonych rownolegle
+     * (poprzez || lub |||)
+     */
+    def mergeParallelDraw(draw_in: PosGraphics, out: Seq[NodeData]): PosGraphics = {
+      val in_count = draw_in.size
+      (out map (_._2)).foldLeft(draw_in) {(acc: PosGraphics, curr: PosGraphics) => {acc ++ curr.drop(in_count)}}
     }
   }
-
 
   /**
    * Połączenie z rozdziałem elementow po kopiach jednego węzła. Obiekt węzła nie jest kopiowany.

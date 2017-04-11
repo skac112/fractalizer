@@ -1,7 +1,7 @@
 // lazy val root = (project in file(".")).
   // settings(
 name := "fractalizer"
-version := "1.0"
+version := "1.0.1"
 scalaVersion := "2.11.8"
 exportJars := true
 libraryDependencies += "org.scalactic" %% "scalactic" % "2.2.6"

@@ -17,12 +17,12 @@ import skac.fractalizer.nodes.stripes._
 import skac.miro.graphics.compounds._
 import scala.math._
 
-object Example18 {
+object Example19 {
   val endCircle = new Node(1) {
     override def procNat(input: PosGraphics): PosGraphics = {
       val (g, pt) = input(0)
       val stripe = g.asInstanceOf[Stripe]
-      val rad_coeff = 2.0
+      val rad_coeff = 1.0
       Seq((Circle(stripe.width * rad_coeff, stripe.genericAttribs), stripe.p1 + (stripe.p2 - stripe.p1) * rad_coeff + pt))
     }
 
@@ -30,15 +30,14 @@ object Example18 {
   }
 
   def group = {
-    val c = (Circle(100.0), Point(100.0, 100.0))
+    val base_color = Color.red(.6)
+    val c = (Circle(100.0, GenericAttribs(Some(base_color))), Point(100.0, 100.0))
     // val r = (Ring(100, 120), Point(100, 50))
-    val base_color = Color.red()
-    val styler = RandSimHsl(base_color, 5, 0.2, .1, .3)
-    val repl1 = PolarRad(Seq(.0, 0.87, 1.0))
-    val styler2 = RandSimHsl(Color(35.0/255, 84.0/255, 60.0/255), 8, .1, .1, .1)
-    val repl2 = PolarAng(Partition.uniform(10), Some(styler2))
-    val styler3 = RandSimHsl(Color.red(.7), 6, .1, .1, .1)
-    val repl3 = PolarAng(Partition.uniform(8), Some(styler3))
+
+    val repl1 = PolarRad(Seq(.0, 0.8, 1.0))
+    val styler = Disperse(10, .3, .3, .1)
+    val repl2 = PolarAng(Partition.uniform(10), Some(styler))
+    val repl3 = PolarAng(Partition.uniform(8), Some(styler))
     val repl4 = StripeContAlt(.15, Pi, true)
     // val repl = repl1 + (repl2 || (repl3 + repl4 + endCircle)) + DrawCut()
     val repl = (repl1 + ((repl2 + DrawCut()) || (repl3 + repl4 + endCircle))) * 3 + DrawCut()
