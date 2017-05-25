@@ -3,6 +3,7 @@ package skac.fractalizer
 import skac.miro.attribs.colors._
 import scala.util._
 import skac.miro._
+import scala.math._
 
 /**
  * Obiekt do tworzenia palet kolorów. Kolory mogą byc randomizowane.
@@ -26,4 +27,13 @@ object Palette {
       val l_delta = lDisp * rand.nextGaussian
       base.addH(h_delta).addS(s_delta).addL(l_delta)
     }
+
+  /**
+   * Generuje palete kolorow rownomiernie rozlozonych na "okregu" hue.
+   */
+  def hueSpan(startColor: Color, num: Int) = {
+    val start_h = startColor.h
+    val step = Angle(2.0 * Pi / num)
+    for (i <- 1 to num) yield Color.hsl(start_h + (step * (i - 1)), startColor.s, startColor.l)
+  }
 }

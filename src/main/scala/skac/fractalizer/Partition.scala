@@ -1,4 +1,4 @@
-package skac.fractalizer.partitioners
+package skac.fractalizer.nodes.partitioners
 
 import scala.math._
 import scala.annotation._

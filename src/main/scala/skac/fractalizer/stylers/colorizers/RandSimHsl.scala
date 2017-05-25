@@ -8,7 +8,8 @@ import skac.miro._
 import skac.fractalizer._
 
 /**
- * Styler, ktory grafikom wynikowym nadaje kolory z podanej sekwencji.
+ * Styler, ktory grafikom wynikowym nadaje kolory losowo rozniace sie od
+ * podanego koloru bazowego.
  */
 case class RandSimHsl(base: Color, num: Int, hDisp: Angle, sDisp: Double, lDisp: Double) extends Styler {
   def apply(in: PosGraphics, out: PosGraphics) = {

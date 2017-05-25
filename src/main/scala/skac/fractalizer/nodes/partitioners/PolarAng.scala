@@ -1,4 +1,4 @@
-package skac.fractalizer.partitioners
+package skac.fractalizer.nodes.partitioners
 
 import skac.fractalizer._
 import skac.fractalizer.Node._
@@ -21,9 +21,9 @@ case class PolarAng(partition: () => Seq[Double],
     * Cyrkularna wersja podzialu partition. Tylko jedna wersja w ramach
     * zycia obiektu, dzieki czemu losowy obrot bedzie ten sam przy kazdym uzyciu.
     */
-  def circPart = Partition.circularize(partition())
+  def circPart = Partition.circularize(partition(), randomRot)
 
-  def procNatCircle(r: Double, ga: GenericAttribs, pt: Point) = {    
+  def procNatCircle(r: Double, ga: GenericAttribs, pt: Point) = {
     val rand_rot: Double = if (randomRot) random * 2 * Pi else .0
     // kolo dzielone jest na wycinki kola
     circPart.sliding(2) map {low_high =>

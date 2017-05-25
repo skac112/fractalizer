@@ -4,7 +4,7 @@ import skac.fractalizer.Node._
 import skac.fractalizer._
 
 /**
- * Nodes which adds proc channel to draw channel and doesn't change proc channel.
+ * Node which adds proc channel to draw channel and doesn't change proc channel.
  */
 case class DrawPass() extends Node(1) {
   override def proc(graphics: PosGraphics) = graphics
