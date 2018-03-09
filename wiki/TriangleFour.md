@@ -32,44 +32,6 @@ import scala.math._
 
 
 
-    [32mimport [39m[36mskac.fractalizer.examples._
-    [39m
-    [32mimport [39m[36mskac.miro.graphics._
-    [39m
-    [32mimport [39m[36mskac.miro.Graphic._
-    [39m
-    [32mimport [39m[36mskac.miro.draw.svg._
-    [39m
-    [32mimport [39m[36mskac.miro.attribs._
-    [39m
-    [32mimport [39m[36mskac.miro.attribs.colors._
-    [39m
-    [32mimport [39m[36mskac.miro._
-    [39m
-    [32mimport [39m[36mskac.fractalizer.nodes.partitioners._
-    [39m
-    [32mimport [39m[36mskac.fractalizer.stylers.colorizers._
-    [39m
-    [32mimport [39m[36mskac.fractalizer.Node._
-    [39m
-    [32mimport [39m[36mskac.fractalizer._
-    [39m
-    [32mimport [39m[36mskac.fractalizer.Palette._
-    [39m
-    [32mimport [39m[36mskac.fractalizer.nodes._
-    [39m
-    [32mimport [39m[36mskac.fractalizer._
-    [39m
-    [32mimport [39m[36mskac.fractalizer.nodes.filters._
-    [39m
-    [32mimport [39m[36mskac.fractalizer.nodes.stripes._
-    [39m
-    [32mimport [39m[36mskac.miro.graphics.compounds._
-    [39m
-    [32mimport [39m[36mscala.math._[39m
-
-
-
 
 ```scala212
 import skac.fractalizer.nodes.partitioners.triangles._
