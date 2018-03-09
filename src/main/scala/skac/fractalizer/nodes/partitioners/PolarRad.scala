@@ -7,11 +7,21 @@ import skac.miro.graphics.compounds._
 import skac.miro.Graphic._
 import skac.miro._
 
+object PolarRad {
+  def uniform(parts: Int, stylerO: Option[Styler] = None, randomRot: Boolean = true) =
+    PolarRad(Partition.uniform(parts - 1), stylerO)
+}
+
 /**
  * Dzieli ksztalt "polarny" (Circle, Ring, ArcSection lub Stripe) "promieniowo"
  * z uzyciem zadanego podzialu.
  */
-case class PolarRad(partition: () => Seq[Double], override val stylerO: Option[Styler] = None) extends Node(1) {
+case class PolarRad(partition: () => Seq[Double],
+ override val stylerO: Option[Styler] = None) extends Node(1) {
+
+  def this(parts: Int, stylerO: Option[Styler], randomRot: Boolean ) =
+    this(Partition.uniform(parts - 1), stylerO)
+
   override def procNat(input: PosGraphics): PosGraphics = {
     def procNatCircle(r: Double, ga: GenericAttribs, pt: Point) = {
       // kolo dzielone jest na kolo + pierscienie
@@ -43,8 +53,7 @@ case class PolarRad(partition: () => Seq[Double], override val stylerO: Option[S
     def procNatRing(rl: Double, rh: Double, ga: GenericAttribs, pt: Point) = {
       // pierscien dzielony jest na pierscienie
       // unormowanie podzialu do zakresu <rl; rh>
-      val normPart = Partition.mapToRange(partition(), rl, rh)
-      println(rl)
+      val normPart = Partition.mapToRange(partition(), rl, rh)  
       normPart.sliding(2) map {low_high =>
         val ring = Ring(low_high(0), low_high(1), ga)
         val ring_pt = pt - ring.c

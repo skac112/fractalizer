@@ -4,8 +4,7 @@ import skac.fractalizer.Node._
 import skac.fractalizer._
 
 /**
- * Węzeł, który dodaje kanał przetwarzania do kanału rysowania i oczyszcza kanał
- * przetwarzania.
+ * Node which adds proc channel to draw channel and clears proc channel.
  */
 case class DrawCut() extends Node(1) {
   override def proc(graphics: PosGraphics) = Nil

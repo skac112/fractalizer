@@ -1,0 +1,6 @@
+*.ensime
+*.classpath
+*.settings
+bin/
+target/
+project/target/

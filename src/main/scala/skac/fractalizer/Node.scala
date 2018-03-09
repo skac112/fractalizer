@@ -9,6 +9,10 @@ object Node {
   type PosGraphics = Seq[PosGraphic]
   type NodeData = (PosGraphics, PosGraphics)
 
+  /**
+   * Creates a node which is a s sequential connection of nodes - output of the
+   * first becomes an input of the second and so on.
+   */
   def chain(nodes: Node*) = new Node(nodes(0).naturalArity) {
     override def apply(data: NodeData) = {
       var d = data
@@ -35,13 +39,18 @@ object Node {
         // indices of starts of graphic chunks for successive nodes (relative to turn start index in proc_data collection)
         n_starts = nodes.view.dropRight(1).scanLeft(0) {(a: Int, n: Node) => {a + n.naturalArity}} takeWhile {_ < turn_len}
         (n_i_pairs, last_start) = if (n_starts.size > 1) {
-          (n_starts.sliding(2), n_starts.last)
+          (n_starts.sliding(2).toSeq, n_starts.last)
         }
         else {
           (Seq[Int](), 0)
         }
         turn_start = t * naturalArity
-        n_i_pairs_2 = n_i_pairs.asInstanceOf[Iterator[Seq[Int]]].toSeq :+ Seq(last_start, turn_len) map {pair => {Seq(pair(0) + turn_start, pair(1) + turn_start)}}
+
+        // n_i_pairs_2 = n_i_pairs.asInstanceOf[Iterator[Seq[Int]]].toSeq :+ Seq(last_start, turn_len) map {pair => {Seq(pair(0) + turn_start, pair(1) + turn_start)}}
+        n_i_pairs_2 = (n_i_pairs :+ Seq(last_start, turn_len)) map {pair =>
+          val t_pair = pair.asInstanceOf[Seq[Int]]
+          Seq(t_pair(0) + turn_start, t_pair(1) + turn_start)
+        }
         zipped = nodes zip n_i_pairs_2
         outputs <- zipped map {kv =>
           val n = kv._1
@@ -49,15 +58,29 @@ object Node {
         }
       } yield outputs
 
+      val proc_ch_out: PosGraphics = out match {
+        case empty @ Seq() => Seq()
+        case one @ Seq(x) => x._1
+        case _ => out map (_._1) reduceLeft {_ ++ _}
+      }
+
       // zlaczenie wynikow
-      (out map (_._1) reduceLeft {_ ++ _}, mergeParallelDraw(data._2, out))
+      (proc_ch_out, mergeParallelDraw(data._2, out))
     }
+
+    /**
+     * Parallel-input connection of nodes. Input is submitted to all nodes and
+     * output  is collected.
+     */
+    // def parallelInput(nodes: Node*): Node = new Node(nodes map {_.naturalArity} max) {
+    //   override def apply(data: NodeData) = nodes flatMap {_.apply(nodes)}
+    // }
 
     /**
      * Dokonuje polaczenia wyjsc kanalow rysowania wezlow polaczonych rownolegle
      * (poprzez || lub |||)
      */
-    def mergeParallelDraw(draw_in: PosGraphics, out: Seq[NodeData]): PosGraphics = {
+    private def mergeParallelDraw(draw_in: PosGraphics, out: Seq[NodeData]): PosGraphics = {
       val in_count = draw_in.size
       (out map (_._2)).foldLeft(draw_in) {(acc: PosGraphics, curr: PosGraphics) => {acc ++ curr.drop(in_count)}}
     }

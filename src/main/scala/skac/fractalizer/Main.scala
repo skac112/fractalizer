@@ -4,7 +4,7 @@ import examples._
 import skac.miro.draw.svg._
 
 object Main extends App {
-  val group = Example24.group
+  val group = Example28.group
   val draw = new Draw()
-  draw.saveToFile(group, "example24_13.svg")
+  draw.saveToFile(group, "example28_10.svg")
 }

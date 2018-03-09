@@ -8,6 +8,11 @@ import skac.miro.Graphic._
 import skac.miro._
 import scala.math._
 
+object PolarAng {
+  def uniform(parts: Int, stylerO: Option[Styler] = None, randomRot: Boolean = true) =
+    PolarAng(Partition.uniform(parts - 1), stylerO, randomRot)
+}
+
 /**
  * Dzieli ksztalt "polarny" (Circle, Ring, ArcSection lub Stripe) "kątowo"
  * z użyciem zadanego podzialu. Mozliwe jest zadanie wykonywania losowego obrotu
@@ -16,6 +21,9 @@ import scala.math._
 case class PolarAng(partition: () => Seq[Double],
  override val stylerO: Option[Styler] = None,
  randomRot: Boolean = true) extends Node(1) {
+
+   def this(parts: Int, stylerO: Option[Styler], randomRot: Boolean ) =
+     this(Partition.uniform(parts - 1), stylerO, randomRot)
 
    /**
     * Cyrkularna wersja podzialu partition. Tylko jedna wersja w ramach

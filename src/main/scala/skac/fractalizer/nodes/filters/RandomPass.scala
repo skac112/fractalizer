@@ -11,5 +11,8 @@ case class RandomPass(passProb: Double, drawRejected: Boolean = true) extends No
     rejected = graphics diff passed
     passed
   }
-  override def draw(data: NodeData) = data._2 ++ rejected
+  override def draw(data: NodeData) = drawRejected match {
+    case true => data._2 ++ rejected
+    case _ => data._2
+  }
 }
