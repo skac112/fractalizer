@@ -89,7 +89,6 @@ d.strDoc((g, ori))
 
 
 ![svg](output_2_0.svg)
-<img src="output_2_0.svg?sanitize=true">
 
 
 
