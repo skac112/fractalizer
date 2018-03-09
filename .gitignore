@@ -4,3 +4,4 @@
 bin/
 target/
 project/target/
+.ensime_cache/
