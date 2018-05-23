@@ -1,4 +1,5 @@
 # Partitioning a triangle
+Libraries used
 
 ```scala212
 pprintConfig() = pprintConfig().copy(height = 10000)
