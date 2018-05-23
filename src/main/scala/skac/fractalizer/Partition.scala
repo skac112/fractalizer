@@ -25,7 +25,7 @@ object Partition {
       def sample = clusterCoeff match {
         case .0 => scala.math.random
         // zaleznosc pochodzi ze "Świat sieci złożonych", s. 288"
-        // w przypadku wylosowa                                                                                                                                                                                                                                                                                                                                                                                                                                                           nia wartosci spoza 0..1 trzeba ponowic losowanie
+        // w przypadku wylosowania wartosci spoza 0..1 trzeba ponowic losowanie
         case _ if clusterCoeff < 0 => sampleExp
         case _ => 1 - sampleExp
       }
@@ -36,6 +36,8 @@ object Partition {
     }
 
     def uniform(midPointNum: Int): PartSeq = (0 to midPointNum + 1) map {_.toDouble / (midPointNum + 1)}
+
+    def trivial = Seq(.0, 1.0)
 
     /**
      * Zwraca podzial "dookolny" na podstawie podzialu jednostkowego. Dokonuje
@@ -84,4 +86,19 @@ object Partition {
     }
 
     def mapToRange(part: PartSeq, from: Double, to: Double) = part map {p => {from * (1 - p) + to * p}}
+}
+
+import Partition._
+
+case class Partition(increases: Seq[Double]) {
+  lazy val unitValues: PartSeq = ???
+  def rangeValues(min: Double, max: Double): PartSeq = ???
+  def angleValues(start: Angle, end: Angle): PartSeq = ???
+  def circleValues(start: Double = .0): PartSeq = ???
+  def +(other: Partition): Partition = ???
+  def *(times: Int): Partition = ???
+  def insert(other: Partition, startPos: Int): Partition = ???
+  def insert(pt: Double): Partition = ???
+  def movePt(idx: Double, displacement: Double): Partition = ???
+  def moveFlex(idx: Double, displacement: Double, rigidity: Double): Partition = ???
 }
