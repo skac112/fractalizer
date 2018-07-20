@@ -5,3 +5,5 @@ bin/
 target/
 project/target/
 .ensime_cache/
+.idea/
+project/
