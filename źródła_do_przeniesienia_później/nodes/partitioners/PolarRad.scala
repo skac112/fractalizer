@@ -17,12 +17,12 @@ object PolarRad {
  * z uzyciem zadanego podzialu.
  */
 case class PolarRad(partition: () => Seq[Double],
- override val stylerO: Option[Styler] = None) extends BasicPartitioner {
+ override val stylerO: Option[Styler] = None) extends Node(1) {
 
   def this(parts: Int, stylerO: Option[Styler], randomRot: Boolean ) =
     this(Partition.uniform(parts - 1), stylerO)
 
-  override def procFun(g: Graphic, pt: Point): Ensemble = {
+  override def procNat(input: PosGraphics): PosGraphics = {
     def procNatCircle(r: Double, ga: GenericAttribs, pt: Point) = {
       // kolo dzielone jest na kolo + pierscienie
       // unormowanie podzialu do zakresu wyznaczonego <0; <promien okregu>>
@@ -73,6 +73,7 @@ case class PolarRad(partition: () => Seq[Double],
       } toSeq;
     }
 
+    val (g, pt) = input(0)
     g match {
       case c @ Circle(r, ga) => procNatCircle(r, ga, pt)
       case as @ ArcSection(r, sa, ar, ga) => procNatArcSection(r, sa, ar, ga, pt + as.c)

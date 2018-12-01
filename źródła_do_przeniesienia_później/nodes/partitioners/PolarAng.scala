@@ -20,7 +20,7 @@ object PolarAng {
  */
 case class PolarAng(partition: () => Seq[Double],
  override val stylerO: Option[Styler] = None,
- randomRot: Boolean = true) extends BasicPartitioner {
+ randomRot: Boolean = true) extends Node(1) {
 
    def this(parts: Int, stylerO: Option[Styler], randomRot: Boolean ) =
      this(Partition.uniform(parts - 1), stylerO, randomRot)
@@ -73,7 +73,8 @@ case class PolarAng(partition: () => Seq[Double],
     } toSeq;
   }
 
-  override def procFun(g: Graphic, pt: Point): Ensemble = {
+  override def procNat(input: PosGraphics): PosGraphics = {
+    val (g, pt) = input(0)
     g match {
       case c @ Circle(r, ga) => procNatCircle(r, ga, pt)
       case as @ ArcSection(r, sa, ar, ga) => procNatArcSection(r, sa, ar, ga, pt + as.c)

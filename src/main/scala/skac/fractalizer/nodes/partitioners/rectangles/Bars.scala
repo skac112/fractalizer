@@ -1,21 +1,21 @@
 package skac.fractalizer.nodes.partitioners.rectangles
 
 import skac.fractalizer._
-import skac.fractalizer.Node._
-import skac.miro.graphics._
-import skac.miro.graphics.compounds._
-import skac.miro.Graphic._
 import skac.miro._
-import scala.math._
-import skac.miro.segments.LineSeg._
+import skac.miro.graphics._
+import skac.fractalizer.Node._
+import skac.fractalizer.nodes.partitioners.BasicPartitioner
 
 /**
  * Partitions rectangle into smaller rectangles ("homo-partition") along one of
  * the sides of the original rectangle.
  */
-case class Bars(numBars: Int, sideType: Symbol = 'SIDETYPE_WIDTH, override val stylerO: Option[Styler] = None) extends Node(1) {
-  override def procNat(input: PosGraphics): PosGraphics = {
-    val (g, pt) = input(0)
+case class Bars(numBars: Int,
+                sideType: Symbol = 'SIDETYPE_WIDTH,
+                override val stylerO: Option[Styler] = None)
+  extends BasicPartitioner {
+
+  override def procFun(g: Graphic, pt: Point): Ensemble = {
     val rect: Rect = g.toR
     sideType match {
       case 'SIDETYPE_WIDTH => {

@@ -1,6 +1,5 @@
 package skac.fractalizer.stylers.colorizers
 
-import skac.fractalizer._
 import skac.fractalizer.Node._
 import skac.miro.attribs.colors._
 import skac.miro.Graphic._
@@ -12,7 +11,7 @@ object Selected {
 }
 
 /**
- * Styler which applies colors from given sequence to out graphics. Colors
+ * Styler, which applies colors from given sequence to out graphics. Colors
  * can be randomly modified in each application by giving nonzero values to
  * arguments hDisp, sDisp and lDisp.
  */
@@ -23,7 +22,7 @@ case class Selected(
  lDisp: Double = 0) extends Styler {
   import Selected._
 
-  def apply(in: Ensemble, out: Ensemble) = {
+  def apply(in: PosGraphics, out: PosGraphics) = {
     val loop_len = max(out.size, colors.size)
     val col_repeat_cnt = (loop_len.toDouble / colors.size).ceil.toInt
     val mod_colors = (hDisp, sDisp, lDisp) match {

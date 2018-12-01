@@ -10,7 +10,7 @@ interp.load.ivy(("skac", "fractalizer_2.12", "1.0.2-SNAPSHOT"))
 
 
 ```scala212
-import skac.fractalizer.examples._
+import skac.fractalizer.skac.fractalizer.examples._
 import skac.miro.graphics._
 import skac.miro.Graphic._
 import skac.miro.draw.svg._
