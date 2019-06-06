@@ -6,6 +6,7 @@ import skac.miro.Graphic._
 import scala.math._
 import skac.miro._
 import skac.fractalizer._
+import com.github.skac112.vgutils._
 
 /**
   * Styler, ktory grafikom wynikowym nadaje kolory rozniace sie losowo od

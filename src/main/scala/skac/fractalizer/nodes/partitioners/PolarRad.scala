@@ -6,6 +6,7 @@ import skac.miro.graphics._
 import skac.miro.graphics.compounds._
 import skac.miro.Graphic._
 import skac.miro._
+import com.github.skac112.vgutils._
 
 object PolarRad {
   def uniform(parts: Int, stylerO: Option[Styler] = None, randomRot: Boolean = true) =

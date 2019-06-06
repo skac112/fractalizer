@@ -7,6 +7,7 @@ import skac.miro.graphics.compounds._
 import skac.miro.Graphic._
 import skac.miro._
 import scala.math._
+import com.github.skac112.vgutils.{Point, Angle}
 
 object PolarAng {
   def uniform(parts: Int, stylerO: Option[Styler] = None, randomRot: Boolean = true) =
@@ -31,7 +32,7 @@ case class PolarAng(partition: () => Seq[Double],
     */
   def circPart = Partition.circularize(partition(), randomRot)
 
-  def procNatCircle(r: Double, ga: GenericAttribs, pt: Point) = {
+  def procNatCircle(r: Double, ga: GenericAttribs, pt: com.github.skac112.vgutils.Point) = {
     val rand_rot: Double = if (randomRot) random * 2 * Pi else .0
     // kolo dzielone jest na wycinki kola
     circPart.sliding(2) map {low_high =>

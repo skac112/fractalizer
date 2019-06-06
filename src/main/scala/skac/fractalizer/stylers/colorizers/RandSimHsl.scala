@@ -5,7 +5,9 @@ import skac.miro.attribs.colors._
 import skac.miro.Graphic._
 import scala.math._
 import skac.miro._
+import skac.miro.attribs.colors.MiroColor._
 import skac.fractalizer._
+import com.github.skac112.vgutils._
 
 /**
   * Styler, ktory grafikom wynikowym nadaje kolory losowo rozniace sie od
@@ -16,6 +18,6 @@ case class RandSimHsl(base: Color, num: Int, hDisp: Angle, sDisp: Double, lDisp:
     val colors = Palette.randSimHsl(base, num, hDisp, sDisp, lDisp)
     val loop_len = max(out.size, colors.size)
     val col_repeat_cnt = (loop_len.toDouble / colors.size).ceil.toInt
-    (for (i <- 1 to col_repeat_cnt; color <- colors) yield GenericAttribs(Some(color))) take loop_len
+    (for (i <- 1 to col_repeat_cnt; color <- colors) yield GenericAttribs(Some(toMiroColor(color)))) take loop_len
   }
 }

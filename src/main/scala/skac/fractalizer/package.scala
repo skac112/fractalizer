@@ -6,9 +6,9 @@ import cats.data.Writer
 import skac.miro.Ensemble
 import com.github.skac112.funnodes._
 import skac.miro.Graphic.GenericAttribs
-
 import scala.annotation.tailrec
 import skac.miro._
+import com.github.skac112.vgutils._
 
 import scala.collection.Seq
 
@@ -46,4 +46,6 @@ package object fractalizer {
    * Konwersja podzialu na funkcje dostarczajaca podzial (dostarczyciela podzialu).
    */
   implicit def partSeqToPartSeqSupp(partSeq: Seq[Double]): () => Seq[Double] = {() => partSeq}
+
+//  implicit def partSeqToPart(partSeq: Seq[Double] = Partition())
 }

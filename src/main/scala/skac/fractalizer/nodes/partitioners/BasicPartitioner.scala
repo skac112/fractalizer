@@ -4,6 +4,7 @@ import skac.fractalizer.Node.makeSingleInNodeFun
 import skac.fractalizer.{Node, SimpleNode, Styler, WrappingNode}
 import skac.miro._
 import skac.miro.graphics._
+import com.github.skac112.vgutils._
 
 /**
   * Base class for large part of partitioners. It has 'proc only' node fun - draws nothing. Proc function

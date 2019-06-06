@@ -4,6 +4,10 @@ import skac.miro.attribs.colors._
 import scala.util._
 import skac.miro._
 import scala.math._
+import com.github.skac112.vgutils._
+import com.github.skac112.vgutils.Color._
+import skac.miro.attribs.colors._
+import skac.miro.attribs.colors.MiroColor._
 
 /**
  * Obiekt do tworzenia palet kolorów. Kolory mogą byc randomizowane.
@@ -25,7 +29,7 @@ object Palette {
       val h_delta = hDisp * rand.nextGaussian
       val s_delta = sDisp * rand.nextGaussian
       val l_delta = lDisp * rand.nextGaussian
-      base.addH(h_delta).addS(s_delta).addL(l_delta)
+      toMiroColor(base.addH(h_delta).addS(s_delta).addL(l_delta))
     }
 
   /**
@@ -34,6 +38,6 @@ object Palette {
   def hueSpan(startColor: Color, num: Int) = {
     val start_h = startColor.h
     val step = Angle(2.0 * Pi / num)
-    for (i <- 1 to num) yield Color.hsl(start_h + (step * (i - 1)), startColor.s, startColor.l)
+    for (i <- 1 to num) yield toMiroColor(Color.hsla(start_h + (step * (i - 1)), startColor.s, startColor.l))
   }
 }

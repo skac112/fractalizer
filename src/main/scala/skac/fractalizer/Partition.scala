@@ -2,10 +2,11 @@ package skac.fractalizer
 
 import scala.math._
 import scala.annotation._
-import skac.miro._
+import com.github.skac112.vgutils._
 
 object Partition {
   type PartSeq = Seq[Double]
+  type PartSpans = Seq[(Double, Double)]
 
     /**
      * Losowy podzial odcinka jednostkowego z zadanym wspolczynnikiem agregacji.
@@ -86,14 +87,74 @@ object Partition {
     }
 
     def mapToRange(part: PartSeq, from: Double, to: Double) = part map {p => {from * (1 - p) + to * p}}
+
+  /**
+    * Creates partition with increases obeying power function:
+    * n-th increase = (a*n + b) ^ exponent.
+    * @param firstIncrease
+    * @param lastIncrease
+    * @param numInc
+    * @param exponent
+    * @return
+    */
+  def power(firstIncrease: Double, lastIncrease: Double, numInc: Int, exponent: Double) = {
+    // n-th increase = (a*n + b) ^ exponent
+    // firstIncrease -> n = 0
+    // lastIncrease -> n = numInc - 1
+    val inv_exp = 1.0 / exponent
+    val b = math.pow(firstIncrease, inv_exp)
+    val a = (math.pow(lastIncrease, inv_exp) - b) / (numInc - 1)
+    val increases = (0 until numInc).map(n => math.pow((a * n + b), exponent))
+    Partition(increases)
+  }
+
+  def linear(firstIncrease: Double, lastIncrease: Double, numInc: Int) =
+    power(firstIncrease, lastIncrease, numInc, 1.0)
 }
 
 import Partition._
 
 case class Partition(increases: Seq[Double]) {
-  lazy val unitValues: PartSeq = ???
-  def rangeValues(min: Double, max: Double): PartSeq = ???
-  def angleValues(start: Angle, end: Angle): PartSeq = ???
+
+  lazy val levels: Seq[Double] = increases.scanLeft(0.0)(_ + _)
+
+  lazy val totalIncrease = increases.foldLeft(0.0)(_ + _)
+
+  /**
+    * Returns sequence of values ranging from min to max corresponding to increases (rescaled).
+    * @param min
+    * @param max
+    * @return
+    */
+  def rangeValues(min: Double, max: Double): PartSeq = {
+    // increase
+    val d = (max - min) / totalIncrease
+    levels map (min + d * _)
+  }
+
+  def rangeSpans(min: Double, max: Double): Seq[(Double, Double)] = {
+    val d = (max - min) / totalIncrease
+    levels.map(min + d * _).sliding(2).map(pair => (pair(0), pair(1))).toSeq
+  }
+
+  /**
+    * Returns sequence of angles ranging from start to end corresponding to increases.
+    * @param start
+    * @param end
+    * @return
+    */
+  def angleValues(start: Angle, end: Angle): Seq[Angle] = {
+    // angle increase
+    val d: Angle = (end - start) / totalIncrease
+    levels map {l: Double => start + (d * l)}
+  }
+
+  /**
+    * Returns sequence of values in unit range.
+    * @return
+    */
+  def unitValues: PartSeq = rangeValues(0.0, 1.0)
+
   def circleValues(start: Double = .0): PartSeq = ???
   def +(other: Partition): Partition = ???
   def *(times: Int): Partition = ???
