@@ -1,4 +1,4 @@
-package skac.fractalizer.nodes.partitioners.triangles
+package fractalizer.nodes.partitioners.triangles
 
 import skac.fractalizer._
 import skac.fractalizer.Node._

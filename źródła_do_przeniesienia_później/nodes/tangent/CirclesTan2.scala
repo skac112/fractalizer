@@ -4,7 +4,7 @@
  * Output circles get their generic attributes from first input circle. Output
  * can contain 0 to 2 circles.
  */
-package skac.fractalizer.nodes.tangent
+package fractalizer.nodes.tangent
 
 import skac.miro._
 import skac.miro.graphics._

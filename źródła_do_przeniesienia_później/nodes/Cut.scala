@@ -1,4 +1,4 @@
-package skac.fractalizer.nodes
+package fractalizer.nodes
 
 import skac.fractalizer.Node._
 import skac.fractalizer._

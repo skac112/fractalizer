@@ -6,14 +6,14 @@ import skac.miro.draw.svg._
 import skac.miro.attribs._
 import skac.miro.attribs.colors._
 import skac.miro._
-import skac.fractalizer.nodes.partitioners._
+import fractalizer.nodes.partitioners._
 import skac.fractalizer.stylers.colorizers._
 import skac.fractalizer.Node._
 import skac.fractalizer.Palette._
-import skac.fractalizer.nodes._
+import fractalizer.nodes._
 import skac.fractalizer._
-import skac.fractalizer.nodes.filters._
-import skac.fractalizer.nodes.stripes._
+import fractalizer.nodes.filters._
+import fractalizer.nodes.stripes._
 import skac.miro.graphics.compounds._
 import scala.math._
 

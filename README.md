@@ -57,6 +57,6 @@ Uses <a href="https://github.com/skac112/miro">miro</a>.
 
   ||* and |||* are for parallel combining same nodes analogically to *.
 
-Some skac.fractalizer.examples (more soon):
+Some fractalizer.examples (more soon):
 
 [Triangle partition](wiki/TriangleFour.md)

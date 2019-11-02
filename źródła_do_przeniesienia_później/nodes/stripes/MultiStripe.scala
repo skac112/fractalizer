@@ -1,4 +1,4 @@
-package skac.fractalizer.nodes.stripes
+package fractalizer.nodes.stripes
 
 import skac.miro._
 import skac.fractalizer._

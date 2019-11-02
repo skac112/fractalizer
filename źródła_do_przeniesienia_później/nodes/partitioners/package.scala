@@ -1,4 +1,4 @@
-package skac.fractalizer.nodes
+package fractalizer.nodes
 
 package object partitioners {
 }

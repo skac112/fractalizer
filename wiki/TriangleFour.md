@@ -10,22 +10,22 @@ interp.load.ivy(("skac", "fractalizer_2.12", "1.0.2-SNAPSHOT"))
 
 
 ```scala212
-import skac.fractalizer.skac.fractalizer.examples._
+import skac.fractalizer.fractalizer.examples._
 import skac.miro.graphics._
 import skac.miro.Graphic._
 import skac.miro.draw.svg._
 import skac.miro.attribs._
 import skac.miro.attribs.colors._
 import skac.miro._
-import skac.fractalizer.nodes.partitioners._
-import skac.fractalizer.stylers.colorizers._
+import fractalizer.nodes.partitioners._
+import fractalizer.stylers.colorizers._
 import skac.fractalizer.Node._
 import skac.fractalizer._
 import skac.fractalizer.Palette._
-import skac.fractalizer.nodes._
+import fractalizer.nodes._
 import skac.fractalizer._
-import skac.fractalizer.nodes.filters._
-import skac.fractalizer.nodes.stripes._
+import fractalizer.nodes.filters._
+import fractalizer.nodes.stripes._
 import skac.miro.graphics.compounds._
 import scala.math._
 ```
@@ -35,7 +35,7 @@ import scala.math._
 
 
 ```scala212
-import skac.fractalizer.nodes.partitioners.triangles._
+import fractalizer.nodes.partitioners.triangles._
 val color = Color.red(.4)
 val pal = hueSpan(color, 4)
 val styler = RandomSelected(pal, .1, .1, .1)
@@ -57,7 +57,7 @@ d.strDoc((g, ori))
 
 
 ```scala212
-import skac.fractalizer.nodes.partitioners.triangles._
+import fractalizer.nodes.partitioners.triangles._
 import scala.math._
 val color = Color.red(.4)
 val pal = hueSpan(color, 4)
@@ -81,7 +81,7 @@ d.strDoc((g, ori))
 
 
 ```scala212
-import skac.fractalizer.nodes.partitioners.triangles._
+import fractalizer.nodes.partitioners.triangles._
 import scala.math._
 
 object TriangleFour1 {

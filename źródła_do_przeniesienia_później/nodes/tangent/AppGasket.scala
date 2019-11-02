@@ -1,4 +1,4 @@
-package skac.fractalizer.nodes.tangent
+package fractalizer.nodes.tangent
 
 import skac.miro._
 import skac.fractalizer.Node._
