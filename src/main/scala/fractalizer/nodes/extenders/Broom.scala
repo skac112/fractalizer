@@ -15,7 +15,7 @@ import scala.math._
 object Broom {
 
   /**
-    *
+    * @param normPos normalized coordinate of middle of a twig on a base line
     * @param normWidth width of twig normalized for unit base line length (actual width is equal to
     *                   widthCoeff * <base_line_length>)
     * @param normCurv reciprocal of radius coefficient of arc going through middle of twig (radius is equal
@@ -23,7 +23,7 @@ object Broom {
     * @param normLen Length of a middle of twig (its' axis line) normalized for baseline of length 1. In case of straight
     * twig it is a normalized height of twig rectangle
     */
-  case class Twig(normWidth: Double, normCurv: Double, normLen: Double) {
+  case class Twig(normPos: Double, normWidth: Double, normCurv: Double, normLen: Double) {
 
     /**
       * Option of signed normalized radius of middle of a twig. It is nomralized for unit baseline length.
@@ -35,6 +35,9 @@ object Broom {
 
     def width(baseLen: Double) = normWidth * baseLen
     def length(baseLen: Double) = normLen * baseLen
+    def pos(baseLen: Double) = normPos * baseLen
+    def left(baseLen: Double) = (normPos - .5*normWidth) * baseLen
+    def right(baseLen: Double) = (normPos + .5*normWidth) * baseLen
 
     /**
       * Option of unsigned radius.
@@ -66,7 +69,7 @@ object Broom {
     // creating twigs
     val twigs = regularTwigs(displacements, startNormCurv, endNormCurv, boundingCircleNormRadius,
       boundingCircleNormCx, boundingCircleNormCy)
-    Broom(displacements, twigs, side, stylerO)
+    Broom(twigs, side, stylerO)
   }
 
   /**
@@ -100,7 +103,7 @@ object Broom {
       val disp = .5*(span._1 + span._2)
 //      val width_coeff = (span._2 - span._1)
       val twig_len = lenForRegularTwig(boundCircleNormRad, boundCircleNormCx, boundCircleNormCy, disp, norm_curv)
-      Twig(span._2 - span._1, norm_curv, twig_len)
+      Twig(disp, span._2 - span._1, norm_curv, twig_len)
 
 //      c_coeff match {
 //        // straight twig
@@ -282,11 +285,9 @@ import Broom._
   * segments are taken into consideration - so for rect valid values are in range 0..3, for stripe - 0 and 1 and so on.
   * @param stylerO
   */
-case class Broom(
-                  displacements: Partition,
-                  twigs: Seq[Twig],
-                  side: Int,
-                  override val stylerO: Option[Styler] = None) extends BasicExtender {
+case class Broom(twigs: Seq[Twig],
+                 side: Int,
+                 override val stylerO: Option[Styler] = None) extends BasicExtender {
 
   override def procFun(g: Graphic, pt: Point) = {
     val base_line = g match {
@@ -295,7 +296,7 @@ case class Broom(
       case ds: DirectedStripe => baseLineFromSegCurve(ds.subpaths(0)._1, ds.subpaths(0)._2 + pt)
       case a: ArcSection => baseLineFromSegCurve(a.subpaths(0)._1, a.subpaths(0)._2 + pt)
     }
-    generate(base_line, displacements, twigs, g.genericAttribs)
+    generate(base_line, twigs, g.genericAttribs)
   }
 
   private def baseLineFromSegCurve(g: GenericSegCurve, pt: Point): LineSec = {
@@ -333,21 +334,28 @@ case class Broom(
     * @param genericAttribs
     * @return
     */
-  private def generate(
-                        baseLine: LineSec,
-                        displacements: Partition,
+  private def generate(baseLine: LineSec,
                         twigs: Seq[Twig],
                         genericAttribs: GenericAttribs): Ensemble = {
     val base_len = baseLine.len
-    (displacements.rangeValues(0, base_len).dropRight(1) zip twigs) map {
-      case (disp, twig) => {
-        val pt = baseLine.p1 + new Point(disp + twig.width(base_len), baseLine.slope)
 
-        val stripe = DirectedStripe(twig.width(base_len), twig.length(base_len), twig.curvature(base_len),
-          baseLine.slope.opposite, genericAttribs)
+    twigs map { twig =>
+      val pt = baseLine.p1 + new Point(twig.right(base_len), baseLine.slope)
 
-        (stripe, pt)
-      }
+      val stripe = DirectedStripe(twig.width(base_len), twig.length(base_len), twig.curvature(base_len),
+        baseLine.slope.opposite, genericAttribs)
+
+      (stripe, pt)
     }
+//    (displacements.rangeValues(0, base_len).dropRight(1) zip twigs) map {
+//      case (disp, twig) => {
+//        val pt = baseLine.p1 + new Point(disp + twig.width(base_len), baseLine.slope)
+//
+//        val stripe = DirectedStripe(twig.width(base_len), twig.length(base_len), twig.curvature(base_len),
+//          baseLine.slope.opposite, genericAttribs)
+//
+//        (stripe, pt)
+//      }
+//    }
   }
 }
