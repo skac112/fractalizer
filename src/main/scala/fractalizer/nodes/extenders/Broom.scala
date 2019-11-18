@@ -276,9 +276,7 @@ import Broom._
 
 /**
   * Creates a broom - set of stripe twigs which "grows" from input twig which can be Rect, Stripe or ArcSection.
-  * It overrides basic extender, so it draws input twig and generates output stripes on the proc channel. Twig widths
-  * are not (in general) redundant with displacements argument, because twig width can be different than value
-  * corresponding to displacements.
+  * It overrides basic extender, so it draws input twig and generates output stripes on the proc channel.
   * @param displacements
   * @param twigs
   * @param side determines which side of input graphics the twigs grow from. For each input graphics type, only straight
@@ -347,6 +345,8 @@ case class Broom(twigs: Seq[Twig],
 
       (stripe, pt)
     }
+
+
 //    (displacements.rangeValues(0, base_len).dropRight(1) zip twigs) map {
 //      case (disp, twig) => {
 //        val pt = baseLine.p1 + new Point(disp + twig.width(base_len), baseLine.slope)
@@ -357,5 +357,31 @@ case class Broom(twigs: Seq[Twig],
 //        (stripe, pt)
 //      }
 //    }
+  }
+
+  /**
+    * Creates new broom with twigs width changed by specified factor.
+    * @param factor
+    */
+  def changeWidth(factor: Double): Broom = {
+    val new_twigs = twigs map { case Twig(normPos, normWidth, normCurv, normLen) => {
+      Twig(changeTwigNormPos(normPos, normWidth, factor), Math.min(normWidth * factor, 1.0), normCurv, normLen)
+    }}
+    this.copy(twigs = new_twigs)
+  }
+
+  private def changeTwigNormPos(normPos: Double, normWidth: Double, factor: Double): Double = {
+    // side choice
+    normPos match {
+      case 0.5 => normPos
+      case pos @ _ if pos < .5 => {
+        val force = .5 - normPos + .5 * normWidth
+        Math.max(normPos + force * normWidth * (factor - 1.0), 0)
+      }
+      case _ => {
+        val force = normPos + .5 * normWidth - .5
+        Math.min(normPos - force * normWidth * (factor - 1.0), 1)
+      }
+    }
   }
 }
